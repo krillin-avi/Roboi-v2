@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     public NavMeshAgent enemyAgent;
     public Transform player;
     public GameObject enemyProjectile;
-
+    
     // States 
     public float sightRange;
     public float attackRange;
@@ -41,7 +41,7 @@ public class EnemyAI : MonoBehaviour
         player = GameObject.Find("Character").transform;
     }
 
-    void LateUpdate()
+    void Update()
     {
         // Checking for player sight range.
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerMask);
@@ -116,9 +116,10 @@ public class EnemyAI : MonoBehaviour
         if (!alreadyAttacked)
         {
             // Add Enemy Attack Code
-            Rigidbody rb = Instantiate(enemyProjectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            //Rigidbody rb = Instantiate(enemyProjectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+            //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+            //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            
 
             // Cycling "alreadyAttacked" between true and false so that the enemy does not spam attacks.
             alreadyAttacked = true;

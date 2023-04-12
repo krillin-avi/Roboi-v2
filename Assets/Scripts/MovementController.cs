@@ -95,6 +95,7 @@ public class MovementController : MonoBehaviour
     void OnDash(InputAction.CallbackContext context)
     {
         isRunPressed = context.ReadValueAsButton();
+        
     }
 
     void HandleRotation()
@@ -108,7 +109,7 @@ public class MovementController : MonoBehaviour
         // The current rotation of the character
         Quaternion currentRotation = transform.rotation;
 
-        if (isMovementPressed )
+        if (isMovementPressed)
         {
             // Creates a new rotation based on where the player is currently pressing
             Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);

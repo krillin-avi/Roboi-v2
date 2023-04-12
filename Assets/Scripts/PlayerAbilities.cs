@@ -7,14 +7,22 @@ using UnityEngine;
 public class PlayerAbilities : MonoBehaviour
 {
     // Invisibility Variables and References
+    [Header("Invisibility Variables and References")]
     Renderer playerRenderer;
     EnemyAI enemyScript;
     public Material invisibleMaterial;
     public Material normalMaterial;
 
+    public float invisibilityCoolDown;
+    float invisibilityLastShot;
+
     // EMP & Gravity Variables and References
+    [Header("EMP & Gravity Variables and References")]
     public float grenadeThrowForce = 5f;
     public GameObject empPrefab;
+
+    public float empCoolDown;
+    float empLastShot;
 
 
     void Awake()
@@ -29,6 +37,13 @@ public class PlayerAbilities : MonoBehaviour
     // EMP MGMT
     public void ThrowEMPGrenade()
     {
+        if (Time.time - empLastShot < empCoolDown)
+        {
+            return;
+        }
+
+        empLastShot = Time.time;
+
         GameObject grenade = Instantiate(empPrefab, transform.position, transform.rotation);
         Rigidbody rb = grenade.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * grenadeThrowForce);
@@ -38,6 +53,13 @@ public class PlayerAbilities : MonoBehaviour
     // Invisibility MGMT
     public void TriggerInvisibility()
     {
+        if (Time.time - invisibilityLastShot < invisibilityCoolDown)
+        {
+            return;
+        }
+
+        invisibilityLastShot = Time.time;
+
         StartCoroutine(InvisibilityTimer(3f));
     }
 

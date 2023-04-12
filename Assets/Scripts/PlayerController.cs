@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int maxHealth = 100;
+    public int maxHealth = 4;
     public int currentHealth;
 
     public HealthBar healthBar;
@@ -13,17 +13,9 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-        
     }
 
-    
-    void Update()
-    {
-    
-        
-    }
-
-    public void TakeDamage(int damage)
+    void PlayerTakeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
@@ -31,10 +23,10 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.name == "Enemy")
         {
-            TakeDamage(25);
+            PlayerTakeDamage(1);
         }
-        
     }
+
 }
