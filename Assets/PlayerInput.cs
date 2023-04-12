@@ -53,6 +53,42 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""b7478aca-642b-4cf6-a651-363238dd1c7f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EMP"",
+                    ""type"": ""Button"",
+                    ""id"": ""e69acaa5-501c-4c1c-bf10-079974eacacc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Invisibility"",
+                    ""type"": ""Button"",
+                    ""id"": ""de3e4812-067e-42a7-8d7a-0f4deee3e795"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AntiGravity"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f3a0446-f89a-4451-a38b-3a77e2a8f1b6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +201,94 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e52e388-17b7-4d7b-a615-7534003bfadb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EMP"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""caf59028-72d6-4298-8922-53f5f9abc70c"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EMP"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1baf574e-88eb-45fa-ad83-9b870e322bbf"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Invisibility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64bb6584-5076-49db-8446-581fdf9bfe44"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Invisibility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27616322-0d29-435f-8df3-b72ac6bbb4a1"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""654bf43d-8b0e-4822-834b-4f06584860cf"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce568ecd-3fae-4f03-93be-4f669957a638"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AntiGravity"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5f57cad-a69c-48e3-95ac-8744af634c82"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AntiGravity"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -176,6 +300,10 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_CharacterControls_Move = m_CharacterControls.FindAction("Move", throwIfNotFound: true);
         m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
         m_CharacterControls_Look = m_CharacterControls.FindAction("Look", throwIfNotFound: true);
+        m_CharacterControls_Dash = m_CharacterControls.FindAction("Dash", throwIfNotFound: true);
+        m_CharacterControls_EMP = m_CharacterControls.FindAction("EMP", throwIfNotFound: true);
+        m_CharacterControls_Invisibility = m_CharacterControls.FindAction("Invisibility", throwIfNotFound: true);
+        m_CharacterControls_AntiGravity = m_CharacterControls.FindAction("AntiGravity", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,6 +366,10 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_Move;
     private readonly InputAction m_CharacterControls_Jump;
     private readonly InputAction m_CharacterControls_Look;
+    private readonly InputAction m_CharacterControls_Dash;
+    private readonly InputAction m_CharacterControls_EMP;
+    private readonly InputAction m_CharacterControls_Invisibility;
+    private readonly InputAction m_CharacterControls_AntiGravity;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -245,6 +377,10 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_CharacterControls_Move;
         public InputAction @Jump => m_Wrapper.m_CharacterControls_Jump;
         public InputAction @Look => m_Wrapper.m_CharacterControls_Look;
+        public InputAction @Dash => m_Wrapper.m_CharacterControls_Dash;
+        public InputAction @EMP => m_Wrapper.m_CharacterControls_EMP;
+        public InputAction @Invisibility => m_Wrapper.m_CharacterControls_Invisibility;
+        public InputAction @AntiGravity => m_Wrapper.m_CharacterControls_AntiGravity;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,6 +399,18 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnLook;
+                @Dash.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDash;
+                @EMP.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEMP;
+                @EMP.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEMP;
+                @EMP.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnEMP;
+                @Invisibility.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnInvisibility;
+                @Invisibility.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnInvisibility;
+                @Invisibility.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnInvisibility;
+                @AntiGravity.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAntiGravity;
+                @AntiGravity.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAntiGravity;
+                @AntiGravity.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAntiGravity;
             }
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -276,6 +424,18 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @EMP.started += instance.OnEMP;
+                @EMP.performed += instance.OnEMP;
+                @EMP.canceled += instance.OnEMP;
+                @Invisibility.started += instance.OnInvisibility;
+                @Invisibility.performed += instance.OnInvisibility;
+                @Invisibility.canceled += instance.OnInvisibility;
+                @AntiGravity.started += instance.OnAntiGravity;
+                @AntiGravity.performed += instance.OnAntiGravity;
+                @AntiGravity.canceled += instance.OnAntiGravity;
             }
         }
     }
@@ -285,5 +445,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnEMP(InputAction.CallbackContext context);
+        void OnInvisibility(InputAction.CallbackContext context);
+        void OnAntiGravity(InputAction.CallbackContext context);
     }
 }

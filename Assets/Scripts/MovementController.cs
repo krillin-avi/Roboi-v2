@@ -9,17 +9,19 @@ public class MovementController : MonoBehaviour
     // Cached References
     PlayerInput playerInput;
     CharacterController characterController;
+    PlayerAbilities playerAbilities;
 
     // Player Input 
     Vector2 currentMovementInput;
     Vector3 currentMovement;
-    // Added
+    Vector3 currentRunMovement;
     Vector3 cameraRelativeMovement;
     bool isMovementPressed;
+    bool isRunPressed;
 
     // Constants
     float rotationFactorPerFrame = 15.0f;
-    float runMultiplier = 7.0f;
+    float dashMultiplier = 21.0f;
     //int zero = 0;
 
     // Gravity 
@@ -32,18 +34,32 @@ public class MovementController : MonoBehaviour
     float maxJumpHeight = 8.0f;
     float maxJumpTime = 0.75f;
     bool isJumping = false;
-    
+
+   // Trigger Abilities 
+    bool isInvisibilityPressed = false;
+    bool isEMPPressed = false;
+
 
     void Awake()
     {
         playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
+        playerAbilities = GetComponent<PlayerAbilities>();
 
         playerInput.CharacterControls.Move.started += OnMovementInput;
         playerInput.CharacterControls.Move.canceled += OnMovementInput;
         playerInput.CharacterControls.Move.performed += OnMovementInput;
+        playerInput.CharacterControls.Dash.started += OnDash;
+        playerInput.CharacterControls.Dash.canceled += OnDash;
         playerInput.CharacterControls.Jump.started += OnJump;
         playerInput.CharacterControls.Jump.canceled += OnJump;
+
+        playerInput.CharacterControls.Invisibility.started += OnInvisible;
+        playerInput.CharacterControls.Invisibility.canceled += OnInvisible;
+
+        playerInput.CharacterControls.EMP.started += OnEMP;
+        playerInput.CharacterControls.EMP.canceled += OnEMP;
+
 
         SetupJumpVariables();
 
@@ -62,6 +78,7 @@ public class MovementController : MonoBehaviour
         {
             isJumping = true;
             currentMovement.y = initialJumpVelocity * .5f;
+            currentRunMovement.y = initialJumpVelocity * .5f;
         }
         else if (!isJumpPressed && isJumping && characterController.isGrounded)
         {
@@ -75,16 +92,18 @@ public class MovementController : MonoBehaviour
         Debug.Log(isJumpPressed);
     }
 
+    void OnDash(InputAction.CallbackContext context)
+    {
+        isRunPressed = context.ReadValueAsButton();
+    }
+
     void HandleRotation()
     {
         Vector3 positionToLookAt;
         // The change in position that the character should point to
 
-        // Changed here **
-        // og positionToLookAt.x = currentMovement.x;
         positionToLookAt.x = cameraRelativeMovement.x;
         positionToLookAt.y = 0.0f;
-        // og positionToLookAt.z = currentMovement.z;
         positionToLookAt.z = cameraRelativeMovement.z;
         // The current rotation of the character
         Quaternion currentRotation = transform.rotation;
@@ -100,8 +119,10 @@ public class MovementController : MonoBehaviour
     void OnMovementInput(InputAction.CallbackContext context)
     {
         currentMovementInput = context.ReadValue<Vector2>();
-        currentMovement.x = currentMovementInput.x * runMultiplier;
-        currentMovement.z = currentMovementInput.y * runMultiplier;
+        currentMovement.x = currentMovementInput.x * 7.0f;
+        currentMovement.z = currentMovementInput.y * 7.0f;
+        currentRunMovement.x = currentMovementInput.x * dashMultiplier;
+        currentRunMovement.z = currentMovementInput.y * dashMultiplier;
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
     }
 
@@ -113,6 +134,7 @@ public class MovementController : MonoBehaviour
         if (characterController.isGrounded) 
         {
             currentMovement.y = groundedGravity;
+            currentRunMovement.y = groundedGravity;
         }
         else if (isFalling)
         {
@@ -120,6 +142,7 @@ public class MovementController : MonoBehaviour
             float newYVelocity = currentMovement.y + (gravity * fallMultiplier * Time.deltaTime);
             float nextYVelocity = (previousYVelocity + newYVelocity) * .5f;
             currentMovement.y = nextYVelocity;
+            currentRunMovement.y = nextYVelocity;
         }
         else
         {
@@ -127,21 +150,26 @@ public class MovementController : MonoBehaviour
             float newYVelocity = currentMovement.y + (gravity * Time.deltaTime);
             float nextYVelocity = (previousYVelocity + newYVelocity) * .5f;
             currentMovement.y = nextYVelocity;
+            currentRunMovement.y = nextYVelocity;
         }
     }
     void Update()
     {
         HandleRotation();
 
-        //Added
-        cameraRelativeMovement = ConvertToCameraSpace(currentMovement);
-        characterController.Move(cameraRelativeMovement * Time.deltaTime);
+        if (isRunPressed)
+        {
+            cameraRelativeMovement = ConvertToCameraSpace(currentRunMovement);
+            characterController.Move(cameraRelativeMovement * Time.deltaTime);
+        } else {
+            cameraRelativeMovement = ConvertToCameraSpace(currentMovement);
+            characterController.Move(cameraRelativeMovement * Time.deltaTime);
+        }
 
-        // OG
-        //characterController.Move(currentMovement * Time.deltaTime);
-       
         HandleGravity();
         HandleJump();
+        HandleInvisibility();
+        HandleEMP();
 
     }
 
@@ -181,4 +209,41 @@ public class MovementController : MonoBehaviour
     {
         playerInput.CharacterControls.Disable();
     }
+
+    // Abililites
+
+    // Invisibility
+
+    void OnInvisible(InputAction.CallbackContext context)
+    {
+        isInvisibilityPressed = context.ReadValueAsButton();
+        Debug.Log(isInvisibilityPressed);
+    }
+
+    void HandleInvisibility()
+    {
+        if (isInvisibilityPressed)
+        {
+            playerAbilities.TriggerInvisibility();
+        }
+
+    }
+
+    // EMP Bomb
+    void OnEMP(InputAction.CallbackContext context)
+    {
+        isEMPPressed = context.ReadValueAsButton();
+        Debug.Log(isEMPPressed);
+    }
+
+    void HandleEMP()
+    {
+        if (isEMPPressed)
+        {
+            playerAbilities.ThrowEMPGrenade();
+            isEMPPressed = false;
+        }
+
+    }
+
 }
