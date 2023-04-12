@@ -32,7 +32,7 @@ public class MovementController : MonoBehaviour
     bool isJumpPressed = false;
     float initialJumpVelocity;
     float maxJumpHeight = 8.0f;
-    float maxJumpTime = 0.75f;
+    float maxJumpTime = 1.25f;
     bool isJumping = false;
 
    // Trigger Abilities 

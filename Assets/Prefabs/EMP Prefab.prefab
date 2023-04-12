@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9050538434135757132
 MeshFilter:
@@ -129,8 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delay: 2
   force: 800
-  radius: 20
-  empDowntime: 0
+  radius: 7
   layerMask: 512
   explosionEffect: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c,
     type: 3}
