@@ -8,16 +8,16 @@ public class MovementController : MonoBehaviour
 {
     // Cached References
     PlayerInput playerInput;
-    CharacterController characterController;
+    public CharacterController characterController;
     PlayerAbilities playerAbilities;
 
     // Player Input 
     Vector2 currentMovementInput;
     Vector3 currentMovement;
     Vector3 currentRunMovement;
-    Vector3 cameraRelativeMovement;
+    public Vector3 cameraRelativeMovement;
     bool isMovementPressed;
-    bool isRunPressed;
+    //bool isRunPressed;
 
     // Constants
     float rotationFactorPerFrame = 15.0f;
@@ -38,6 +38,7 @@ public class MovementController : MonoBehaviour
    // Trigger Abilities 
     bool isInvisibilityPressed = false;
     bool isEMPPressed = false;
+    bool isDashPressed = false;
 
 
     void Awake()
@@ -92,11 +93,13 @@ public class MovementController : MonoBehaviour
         Debug.Log(isJumpPressed);
     }
 
+    /*
     void OnDash(InputAction.CallbackContext context)
     {
         isRunPressed = context.ReadValueAsButton();
         
     }
+    */
 
     void HandleRotation()
     {
@@ -122,8 +125,8 @@ public class MovementController : MonoBehaviour
         currentMovementInput = context.ReadValue<Vector2>();
         currentMovement.x = currentMovementInput.x * 7.0f;
         currentMovement.z = currentMovementInput.y * 7.0f;
-        currentRunMovement.x = currentMovementInput.x * dashMultiplier;
-        currentRunMovement.z = currentMovementInput.y * dashMultiplier;
+        //currentRunMovement.x = currentMovementInput.x * dashMultiplier;
+        //currentRunMovement.z = currentMovementInput.y * dashMultiplier;
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
     }
 
@@ -135,7 +138,7 @@ public class MovementController : MonoBehaviour
         if (characterController.isGrounded) 
         {
             currentMovement.y = groundedGravity;
-            currentRunMovement.y = groundedGravity;
+            //currentRunMovement.y = groundedGravity;
         }
         else if (isFalling)
         {
@@ -143,7 +146,7 @@ public class MovementController : MonoBehaviour
             float newYVelocity = currentMovement.y + (gravity * fallMultiplier * Time.deltaTime);
             float nextYVelocity = (previousYVelocity + newYVelocity) * .5f;
             currentMovement.y = nextYVelocity;
-            currentRunMovement.y = nextYVelocity;
+            //currentRunMovement.y = nextYVelocity;
         }
         else
         {
@@ -151,13 +154,17 @@ public class MovementController : MonoBehaviour
             float newYVelocity = currentMovement.y + (gravity * Time.deltaTime);
             float nextYVelocity = (previousYVelocity + newYVelocity) * .5f;
             currentMovement.y = nextYVelocity;
-            currentRunMovement.y = nextYVelocity;
+            //currentRunMovement.y = nextYVelocity;
         }
     }
     void Update()
     {
         HandleRotation();
 
+        cameraRelativeMovement = ConvertToCameraSpace(currentMovement);
+        characterController.Move(cameraRelativeMovement * Time.deltaTime);
+
+        /*
         if (isRunPressed)
         {
             cameraRelativeMovement = ConvertToCameraSpace(currentRunMovement);
@@ -166,6 +173,7 @@ public class MovementController : MonoBehaviour
             cameraRelativeMovement = ConvertToCameraSpace(currentMovement);
             characterController.Move(cameraRelativeMovement * Time.deltaTime);
         }
+        */
 
         HandleGravity();
         HandleJump();
@@ -246,5 +254,23 @@ public class MovementController : MonoBehaviour
         }
 
     }
+
+    // Dash 
+
+    void OnDash(InputAction.CallbackContext context)
+    {
+        isDashPressed = context.ReadValueAsButton();
+        Debug.Log(isDashPressed);
+    }
+
+    void OnDash()
+    {
+        if (isDashPressed)
+        {
+            playerAbilities.TriggerDash();
+        }
+
+    }
+
 
 }

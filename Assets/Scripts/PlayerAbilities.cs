@@ -10,6 +10,7 @@ public class PlayerAbilities : MonoBehaviour
     [Header("Invisibility Variables and References")]
     Renderer playerRenderer;
     EnemyAI enemyScript;
+    EnemyCameraAI cameraAI;
     public Material invisibleMaterial;
     public Material normalMaterial;
 
@@ -23,13 +24,53 @@ public class PlayerAbilities : MonoBehaviour
 
     public float empCoolDown;
     float empLastShot;
+    
 
+    // Dash References
+    CharacterController characterController;
+    MovementController movementController;
+    Vector3 cameraRelativeMovement;
+    public float dashSpeed;
+    public float dashTime;
+
+    // For Dash Cooldown Timer
+    public float dashCoolDown;
+    float dashLastShot;
 
     void Awake()
     {
         // Invisibility Cache
         playerRenderer = GameObject.Find("Character").GetComponent<MeshRenderer>();
         enemyScript = GameObject.Find("Enemy").GetComponent<EnemyAI>();
+        cameraAI = GameObject.Find("EnemyCamera").GetComponent<EnemyCameraAI>();
+
+        // Dash 
+        characterController = FindObjectOfType<CharacterController>();
+        movementController = GetComponent<MovementController>();
+    }
+
+    // Dash MGMT
+    public void TriggerDash()
+    {
+        if (Time.time - dashLastShot < dashCoolDown)
+        {
+            return;
+        }
+
+        dashLastShot = Time.time;
+
+        StartCoroutine(Dash());
+    }
+
+    IEnumerator Dash()
+    {
+        cameraRelativeMovement = movementController.cameraRelativeMovement;
+        float startTime = Time.time;
+        while (Time.time < startTime + dashTime)
+        {
+            characterController.Move(cameraRelativeMovement * dashSpeed * Time.deltaTime);
+            yield return null;
+        }
     }
 
 
@@ -69,11 +110,13 @@ public class PlayerAbilities : MonoBehaviour
 
         playerRenderer.material = invisibleMaterial;
         enemyScript.playerInvisible = true;
+        cameraAI.playerInvisible = true;    
 
         yield return new WaitForSeconds(duration);
 
         playerRenderer.material = normalMaterial;
         enemyScript.playerInvisible = false;
+        cameraAI.playerInvisible = false;
     }
 
     
