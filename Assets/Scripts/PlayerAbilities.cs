@@ -62,13 +62,13 @@ public class PlayerAbilities : MonoBehaviour
         StartCoroutine(Dash());
     }
 
-    IEnumerator Dash()
+    public IEnumerator Dash()
     {
         cameraRelativeMovement = movementController.cameraRelativeMovement;
         float startTime = Time.time;
         while (Time.time < startTime + dashTime)
         {
-            characterController.Move(cameraRelativeMovement * dashSpeed * Time.deltaTime);
+            characterController.Move(characterController.transform.forward * dashSpeed * Time.deltaTime);
             yield return null;
         }
     }

@@ -21,7 +21,7 @@ public class MovementController : MonoBehaviour
 
     // Constants
     float rotationFactorPerFrame = 15.0f;
-    float dashMultiplier = 21.0f;
+    //float dashMultiplier = 21.0f;
     //int zero = 0;
 
     // Gravity 
@@ -179,6 +179,7 @@ public class MovementController : MonoBehaviour
         HandleJump();
         HandleInvisibility();
         HandleEMP();
+        HandleDash();
 
     }
 
@@ -263,7 +264,7 @@ public class MovementController : MonoBehaviour
         Debug.Log(isDashPressed);
     }
 
-    void OnDash()
+    void HandleDash()
     {
         if (isDashPressed)
         {
